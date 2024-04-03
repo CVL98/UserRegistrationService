@@ -54,10 +54,15 @@
                 throw new ArgumentException("Password must be at least 8 characters long");
             }
 
-            if (!password.Any(char.IsSymbol))
+            // Define a set of special characters
+            string specialCharacters = "!@#$%^&*()-_=+";
+
+            // Check if any special character is present in the password
+            if (!password.Any(c => specialCharacters.Contains(c)))
             {
                 throw new ArgumentException("Password must contain at least one special character");
             }
+
 
             // Check if the user already exists
             if (Users.Exists(u => u.Name == username))
@@ -71,7 +76,7 @@
 
         private bool IsValidEmail(string email)
         {
-            // This regular expression pattern is a basic check for email format
+            // Checks the email against the acceptable email pattern
             string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
             return System.Text.RegularExpressions.Regex.IsMatch(email, pattern);
         }
